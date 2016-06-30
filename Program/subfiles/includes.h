@@ -22,5 +22,7 @@ typedef unsigned int uint;
 
 extern _Bool isRunTimer;
 extern uint  TimerCNT;
+extern uchar RxBuffer[RX_BUF_LEN];
+extern uchar RxPoint;
 
 #endif
