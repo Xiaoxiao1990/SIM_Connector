@@ -1,11 +1,5 @@
 #include "includes.h"
 
-#define IN_SET_TIME 5		//5 seconds
-#define pinRelay 	PD_ODR_1
-#define pinYellow PB_ODR_5
-#define pinBuzzer PD_ODR_4
-#define BUZZER_TIME 150
-
 void _timerBaseInitial(void)
 {//500us
 	TIM4_IER = 0x00; // disable interrup
@@ -18,28 +12,28 @@ void _timerBaseInitial(void)
 
 void _timer2_Initial(void)
 {
-	//³õÊ¼»¯¶¨Ê±Æ÷2                               
-  TIM2_IER = 0x00;            // ½ûÖ¹ÖÐ¶Ï
-  TIM2_EGR = 0x01;            // ÔÊÐí²úÉú¸üÐÂÊÂ¼þ
-  TIM2_PSCR = 0x03;           // ¼ÆÊýÆ÷Ê±ÖÓ=fmaster/prescaler = 8M/(2^3) = 1Mhz
-															// Ïàµ±ÓÚ¼ÆÊýÆ÷ÖÜÆÚÎª1uS
-														  // Éè¶¨ÖØ×°ÔØÊ±µÄ¼Ä´æÆ÷Öµ
-															// ×¢Òâ±ØÐë±£Ö¤ÏÈÐ´Èë¸ß8Î»£¬ÔÙÐ´ÈëµÍ8Î»
-  TIM2_ARRH = 0xc3;           // Éè¶¨ÖØ×°ÔØÊ±µÄ¼Ä´æÆ÷µÄ¸ß8Î»
+	//åˆå§‹åŒ–å®šæ—¶å™¨2                               
+  TIM2_IER = 0x00;          // ç¦æ­¢ä¸­æ–­
+  TIM2_EGR = 0x01;          // å…è®¸äº§ç”Ÿæ›´æ–°äº‹ä»¶
+  TIM2_PSCR = 0x03;         // è®¡æ•°å™¨æ—¶é’Ÿ=fmaster/prescaler = 8M/(2^3) = 1Mhz
+							// ç›¸å½“äºŽè®¡æ•°å™¨å‘¨æœŸä¸º1uS
+							// è®¾å®šé‡è£…è½½æ—¶çš„å¯„å­˜å™¨å€¼
+							// æ³¨æ„å¿…é¡»ä¿è¯å…ˆå†™å…¥é«˜8ä½ï¼Œå†å†™å…¥ä½Ž8ä½
+  TIM2_ARRH = 0xc3;         // è®¾å®šé‡è£…è½½æ—¶çš„å¯„å­˜å™¨çš„é«˜8ä½
   TIM2_ARRL = 0x50;  
   
-  TIM2_CNTRH = 0xc3;          // Éè¶¨¼ÆÊýÆ÷µÄ³õÖµ
+  TIM2_CNTRH = 0xc3;        // è®¾å®šè®¡æ•°å™¨çš„åˆå€¼
   TIM2_CNTRL = 0x50;             
-                              // ¶¨Ê±ÖÜÆÚ=1*50000=50000uS=50ms
+                            // å®šæ—¶å‘¨æœŸ=1*50000=50000uS=50ms
 
-  TIM2_CR1 = 0x01;            // b0 = 1,ÔÊÐí¼ÆÊýÆ÷¹¤×÷
-                              // b1 = 0,ÔÊÐí¸üÐÂ
-                              // ÉèÖÃ¿ØÖÆÆ÷£¬Æô¶¯¶¨Ê±Æ÷
-  TIM2_IER = 0x01;            // ÔÊÐí¸üÐÂÖÐ¶Ï
-  _asm("rim");                // ÔÊÐíCPUÈ«¾ÖÖÐ¶Ï
+  TIM2_CR1 = 0x01;          // b0 = 1,å…è®¸è®¡æ•°å™¨å·¥ä½œ
+                            // b1 = 0,å…è®¸æ›´æ–°
+                            // è®¾ç½®æŽ§åˆ¶å™¨ï¼Œå¯åŠ¨å®šæ—¶å™¨
+  TIM2_IER = 0x01;          // å…è®¸æ›´æ–°ä¸­æ–­
+  _asm("rim");              // å…è®¸CPUå…¨å±€ä¸­æ–­
 }
 
-void _timerBase(void)		//4.080ms
+void _timerBase(void)		//500us
 {											
 	if (bitTIM4_SR1_UIF) // 
 	{
@@ -51,37 +45,5 @@ void _timerBase(void)		//4.080ms
 
 void _timerWheel(void)
 {
-	static uchar time_CNT = 0;
-	
-	if(isInRx)//Rx time out counter
-	{
-		if(++RxTimer > 4)
-		{
-			RxTimer = 0;
-			isInRx = 0;
-			isReceiveComplete = Yes;
-		}
-	}
-	else
-	{
-		RxTimer = 0;
-	}
-	
-	if(isOneSecond)
-	{
-		isOneSecond = 0;
-		if(isLowVoltage)
-		{
-			if(++time_CNT > 10)
-			{
-				time_CNT = 0;
-				isLowVoltage = 0;
-				_LCD_BackLight(1);
-			}
-		}
-		else
-		{
-			time_CNT = 0;
-		}
-	}
+	//Nothing to do...
 }
