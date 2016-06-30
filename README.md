@@ -24,3 +24,8 @@ Before to connect with the SIM card,we should confirm that the MCU physically co
 About protocal. Ref. ISO-7816-1,2,3,4
 
 OK,Let's go!
+/////////////////////////////////////////////
+Version Remark
+=================
+2016-06-30 Read out the ATR.
+=================
